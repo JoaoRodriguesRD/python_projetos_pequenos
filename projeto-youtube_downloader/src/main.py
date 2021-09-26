@@ -1,5 +1,4 @@
 from pytube import YouTube
-import pprint
 from pytube import Search
 from pytube import Playlist
 from tkinter import *
@@ -56,13 +55,7 @@ def youtube_link():
 def download():
     blank.delete(0, END)
     blank.insert(0, "fazendo o download... aguarde")
-    print(monthchoosen.current())
-
-
-# def sub():
-# blank.delete(0, END)
-# Ans = int(num1.get()) - int(num2.get())
-# blank.insert(0, Ans)
+    print(formatchosen.current())
 
 
 main.geometry('900x300')
@@ -75,24 +68,15 @@ title = Entry(main)
 blank = Entry(main)
 
 
-monthchoosen = ttk.Combobox(main, width=27)
+formatchosen = ttk.Combobox(main, width=27)
 
 # Adding combobox drop down list
-monthchoosen['values'] = (' MP4 360p',
+formatchosen['values'] = (' MP4 360p',
                           ' MP4 720p',
-                          ' March',
-                          ' April',
-                          ' May',
-                          ' June',
-                          ' July',
-                          ' August',
-                          ' September',
-                          ' October',
-                          ' November',
-                          ' December')
+                          ' MP4 1080p',)
 
-monthchoosen.grid(column=1, row=5)
-monthchoosen.current()
+formatchosen.grid(column=1, row=5)
+formatchosen.current()
 
 link.grid(row=0, column=1)
 title.grid(row=1, column=1)
