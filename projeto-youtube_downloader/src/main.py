@@ -29,7 +29,6 @@ def isYoutubeLink():
 main = Tk()
 main.title('VIDEO DOWNLOADER')
 
-
 def youtube_link():
     blank.delete(0, END)
     print(link.get())
@@ -49,16 +48,42 @@ def youtube_link():
             blank.insert(0, "video preparado para download")
             yt = YouTube(link.get())
             print(yt.streams.filter(progressive=True, file_extension='mp4'))
+            print(type(yt.streams.filter(file_extension='mp4')))
+            print(yt.streams.get_by_resolution(resolution="1080p"))
+            print(yt.streams.get_by_resolution(resolution="720p"))
+            print(yt.streams.get_by_resolution(resolution="480p"))
+            print(yt.streams.get_by_resolution(resolution="360p"))
+            print(yt.streams.get_by_resolution(resolution="240p"))
+            print(yt.streams.get_by_resolution(resolution="144p"))
+            arrayy = [yt.streams.get_by_resolution(resolution="1080p"),
+                      yt.streams.get_by_resolution(resolution="720p"),
+                      yt.streams.get_by_resolution(resolution="480p"),
+                      yt.streams.get_by_resolution(resolution="360p"),
+                      yt.streams.get_by_resolution(resolution="240p"),
+                      yt.streams.get_by_resolution(resolution="144p"),
+                      ]
+            exist = []
+            for x in arrayy:
+                if(x != None):
+                    exist.append(x.resolution)
+
+            formatchosen['values'] = tuple(exist)
+            print(formatchosen.get())
+
             title.insert(0,yt.title)
+
+
 
 
 def download():
     blank.delete(0, END)
     blank.insert(0, "fazendo o download... aguarde")
     print(formatchosen.current())
+    formatchosen.grid(column=0, row=6)
+    print(formatchosen.get())
 
 
-main.geometry('900x300')
+main.geometry('500x300')
 Label(main, text="Youtube Link: ").grid(row=0)
 Label(main, text="Video Title: ").grid(row=1)
 Label(main, text="Output:").grid(row=2)
@@ -68,21 +93,21 @@ title = Entry(main)
 blank = Entry(main)
 
 
-formatchosen = ttk.Combobox(main, width=27)
+formatchosen = ttk.Combobox(main, width=13)
 
 # Adding combobox drop down list
 formatchosen['values'] = (' MP4 360p',
                           ' MP4 720p',
                           ' MP4 1080p',)
 
-formatchosen.grid(column=1, row=5)
+formatchosen.grid(column=0, row=3)
 formatchosen.current()
 
 link.grid(row=0, column=1)
 title.grid(row=1, column=1)
 blank.grid(row=2, column=1)
 
-Button(main, text='Quit', command=main.destroy).grid(row=10, column=1, sticky=W)
+Button(main, text='Sair', command=main.destroy).grid(row=10, column=3, sticky=W)
 Button(main, text='Procurar', command=youtube_link).grid(row=0, column=3, sticky=W, )
 Button(main, text='Download', command=download).grid(row=3, column=1, sticky=W)
 
