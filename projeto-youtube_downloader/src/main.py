@@ -68,6 +68,7 @@ def youtube_link():
                 if(x != None):
                     exist.append(x.resolution)
 
+            print("arrayy criado com as seguintes resolucoes: ", exist)
             formatchosen['values'] = tuple(exist)
             print(formatchosen.get())
 
@@ -78,14 +79,35 @@ def youtube_link():
 
 def download():
     blank.delete(0, END)
-    blank.insert(0, "fazendo o download... aguarde")
+    blank.insert(0, "Download...")
     print(formatchosen.current())
     formatchosen.grid(column=0, row=6)
     print(formatchosen.get())
     os.chmod(os.path.dirname(os.path.abspath(__file__)), 0o777)
     x = os.path.dirname(os.path.abspath(__file__))
     print(x)
-    os.makedirs(os.path.dirname(os.path.abspath(__file__))+'/downloads',mode = 0o777)
+
+    try:
+        os.makedirs(os.path.dirname(os.path.abspath(__file__)) + '/downloads', mode=0o777)
+    except FileExistsError:
+        print("/downloads already make")
+    yt = YouTube(link.get())
+    blank.insert(END, " Link ok...")
+    if(formatchosen.get() == -1):
+        print("resolução não selecionada")
+    else:
+        blank.delete(0, END)
+        blank.insert(0, " Resolução selecionada: " + str(formatchosen.current()))
+        blank.insert(END, " Aguarde... ")
+        print(yt.streams.get_by_resolution(resolution=formatchosen.current()))
+        stream = yt.streams.get_by_resolution(resolution=formatchosen.current())
+        print(stream.itag)
+        file = yt.streams.get_by_itag(stream.itag)
+        file.download(output_path=os.path.dirname(os.path.abspath(__file__)) + '/downloads')
+        blank.delete(0, END)
+        blank.insert(0, "Download concluído!")
+
+
 
 
 
@@ -102,9 +124,7 @@ blank = Entry(main)
 formatchosen = ttk.Combobox(main, width=13)
 
 # Adding combobox drop down list
-formatchosen['values'] = (' MP4 360p',
-                          ' MP4 720p',
-                          ' MP4 1080p',)
+formatchosen['values'] = ("procure um link primeiro")
 
 formatchosen.grid(column=0, row=3)
 formatchosen.current()
