@@ -4,6 +4,7 @@ from pytube import Playlist
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import *
+import os
 
 
 # link =  input("digite seu link:")
@@ -81,6 +82,11 @@ def download():
     print(formatchosen.current())
     formatchosen.grid(column=0, row=6)
     print(formatchosen.get())
+    os.chmod(os.path.dirname(os.path.abspath(__file__)), 0o777)
+    x = os.path.dirname(os.path.abspath(__file__))
+    print(x)
+    os.makedirs(os.path.dirname(os.path.abspath(__file__))+'/downloads',mode = 0o777)
+
 
 
 main.geometry('500x300')
